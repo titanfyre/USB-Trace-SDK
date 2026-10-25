@@ -1,0 +1,54 @@
+#include "../SDK/USBTrace.h"
+#include "../Installer/Setup.h"
+#include <commctrl.h>
+#include <atomic>
+#include <mutex>
+#include <thread>
+#include <sstream>
+#include <iomanip>
+namespace {
+constexpr COLORREF Background=RGB(245,247,251),Ink=RGB(20,30,48),Blue=RGB(30,100,235),White=RGB(255,255,255);
+HWND Window,Devices,Key,Output;HFONT Font,TitleFont;std::atomic<bool> Quit{false};std::thread Worker;
+std::mutex Mutex;int Command=0;std::wstring Selected,Access,Message=L"Select an exact USB device. Capture is inactive by default.";UT_STATE State{};bool Preview=false,Busy=false;std::vector<Setup::USBNode> Nodes;std::vector<UT_EVENT> Last;
+std::wstring Wide(const std::string& s){if(s.empty())return {};int n=MultiByteToWideChar(CP_UTF8,0,s.c_str(),static_cast<int>(s.size()),nullptr,0);std::wstring w(n,L' ');MultiByteToWideChar(CP_UTF8,0,s.c_str(),static_cast<int>(s.size()),w.data(),n);return w;}
+std::string Narrow(const std::wstring& s){if(s.empty())return {};int n=WideCharToMultiByte(CP_UTF8,0,s.data(),static_cast<int>(s.size()),nullptr,0,nullptr,nullptr);std::string out(n,' ');WideCharToMultiByte(CP_UTF8,0,s.data(),static_cast<int>(s.size()),out.data(),n,nullptr,nullptr);return out;}
+void Action(int command){if(Preview)return;std::lock_guard<std::mutex> lock(Mutex);if(Busy)return;int index=static_cast<int>(SendMessageW(Devices,CB_GETCURSEL,0,0));Selected=index>=0&&static_cast<size_t>(index)<Nodes.size()?Nodes[index].instance:L"";wchar_t key[256]{};GetWindowTextW(Key,key,256);Access=key;SecureZeroMemory(key,sizeof(key));Command=command;Busy=true;Message=L"Working...";SetTimer(Window,1,30,nullptr);}
+void Work(){
+ USBTrace trace;unsigned tick=0;
+ while(!Quit){
+  int command;std::wstring selected,key;{std::lock_guard<std::mutex> lock(Mutex);command=Command;Command=0;selected=Selected;key=Access;SecureZeroMemory(Access.data(),Access.size()*sizeof(wchar_t));Access.clear();}
+  try{
+   if(command==1||(!tick++&& !Preview)){auto nodes=Setup::USBNodes();{std::lock_guard<std::mutex> lock(Mutex);Nodes=std::move(nodes);}PostMessageW(Window,WM_APP+1,0,0);}
+   if(command==2||command==3){auto r=Setup::ChangeFilter(selected,command==2);std::lock_guard<std::mutex> lock(Mutex);Message=r.detail;if(r.reboot)Message+=L" Restart Windows to complete association changes.";}
+   if(command==4){auto error=trace.Authorize(Narrow(key));if(error.empty()){auto modules=trace.Modules();std::uint64_t id=0;for(const auto& m:modules)if(!_wcsicmp(m.instance,selected.c_str()))id=m.id;error=id?trace.Start(id):"The selected device has no attached ready filter. Attach it, restart if requested, then refresh.";}std::lock_guard<std::mutex> lock(Mutex);Message=error.empty()?L"Observing the selected device. All USB traffic passes unchanged.":Wide(error);}
+   if(command==5){trace.Stop();std::lock_guard<std::mutex> lock(Mutex);Message=L"Capture stopped; diagnostic records cleared.";}
+   SecureZeroMemory(key.data(),key.size()*sizeof(wchar_t));
+   if(!Preview){auto status=trace.Status();std::vector<UT_EVENT> events;if(status.active)events=trace.Receive();{std::lock_guard<std::mutex> lock(Mutex);State=status;if(!events.empty())Last=std::move(events);}}
+  }catch(const std::exception& e){std::lock_guard<std::mutex> lock(Mutex);Message=Wide(e.what());State={};}
+  if(command){std::lock_guard<std::mutex> lock(Mutex);Busy=false;}
+  if(!Quit)PostMessageW(Window,WM_APP+2,0,0);Sleep(100);
+ }
+}
+void Paint(HWND window){PAINTSTRUCT ps;HDC dc=BeginPaint(window,&ps);RECT bounds;GetClientRect(window,&bounds);HDC memory=CreateCompatibleDC(dc);HBITMAP bitmap=CreateCompatibleBitmap(dc,bounds.right,bounds.bottom);auto old=SelectObject(memory,bitmap);HBRUSH background=CreateSolidBrush(Background);FillRect(memory,&bounds,background);DeleteObject(background);SetBkMode(memory,TRANSPARENT);SetTextColor(memory,Ink);SelectObject(memory,TitleFont);RECT title{24,20,bounds.right-24,58};DrawTextW(memory,L"USB Trace SDK",-1,&title,DT_SINGLELINE);SelectObject(memory,Font);RECT sub{25,64,bounds.right-25,94};DrawTextW(memory,Preview?L"OFFLINE PREVIEW - no driver or USB device opened":L"Per-device request observations | Original traffic passes unchanged",-1,&sub,DT_SINGLELINE);
+ std::wstring message;UT_STATE s{};bool busy;{std::lock_guard<std::mutex> lock(Mutex);message=Message;s=State;busy=Busy;}
+ RECT card{24,235,bounds.right-24,325};HBRUSH white=CreateSolidBrush(White);auto previousBrush=SelectObject(memory,white);auto previousPen=SelectObject(memory,GetStockObject(NULL_PEN));RoundRect(memory,card.left,card.top,card.right,card.bottom,16,16);SelectObject(memory,previousPen);SelectObject(memory,previousBrush);DeleteObject(white);RECT text{40,248,bounds.right-40,310};std::wstring counters=(s.active?L"CAPTURE ACTIVE":L"CAPTURE INACTIVE")+std::wstring(L"     ")+std::to_wstring(s.completed)+L" completed     "+std::to_wstring(s.overwritten)+L" overwritten\n"+std::to_wstring(s.queued)+L" queued / "+std::to_wstring(UT_RING_CAPACITY)+L"     Sample limit: 512 bytes     Pending: "+std::to_wstring(s.pending);DrawTextW(memory,counters.c_str(),-1,&text,DT_WORDBREAK);RECT footer{24,bounds.bottom-78,bounds.right-24,bounds.bottom-20};SetTextColor(memory,busy?Blue:Ink);DrawTextW(memory,message.c_str(),-1,&footer,DT_WORDBREAK);if(busy){int width=bounds.right-96;int position=static_cast<int>((GetTickCount64()%1200)*static_cast<ULONGLONG>(width)/1200);RECT progress{24+position,bounds.bottom-14,72+position,bounds.bottom-10};HBRUSH blue=CreateSolidBrush(Blue);FillRect(memory,&progress,blue);DeleteObject(blue);}BitBlt(dc,0,0,bounds.right,bounds.bottom,memory,0,0,SRCCOPY);SelectObject(memory,old);DeleteObject(bitmap);DeleteDC(memory);EndPaint(window,&ps);}
+LRESULT CALLBACK Proc(HWND window,UINT message,WPARAM w,LPARAM l){
+ switch(message){case WM_CREATE:{Window=window;Font=CreateFontW(-16,0,0,0,FW_NORMAL,FALSE,FALSE,FALSE,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Segoe UI");TitleFont=CreateFontW(-29,0,0,0,FW_SEMIBOLD,FALSE,FALSE,FALSE,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Segoe UI");
+  auto control=[&](const wchar_t* type,const wchar_t* text,DWORD style,int x,int y,int width,int height,int id){HWND h=CreateWindowExW(0,type,text,WS_CHILD|WS_VISIBLE|WS_TABSTOP|style,x,y,width,height,window,reinterpret_cast<HMENU>(static_cast<INT_PTR>(id)),nullptr,nullptr);SendMessageW(h,WM_SETFONT,reinterpret_cast<WPARAM>(Font),TRUE);return h;};
+  Devices=control(L"COMBOBOX",L"",CBS_DROPDOWNLIST|WS_VSCROLL,24,107,738,320,10);Key=control(L"EDIT",L"",WS_BORDER|ES_PASSWORD|ES_AUTOHSCROLL,24,151,490,30,11);SendMessageW(Key,EM_SETCUEBANNER,TRUE,reinterpret_cast<LPARAM>(L"Product access key (Ctrl+V supported)"));
+  control(L"BUTTON",L"Refresh",BS_OWNERDRAW,526,151,112,32,1);control(L"BUTTON",L"Attach filter",BS_OWNERDRAW,24,193,144,32,2);control(L"BUTTON",L"Detach filter",BS_OWNERDRAW,180,193,144,32,3);control(L"BUTTON",L"Authorize & observe",BS_OWNERDRAW,336,193,204,32,4);control(L"BUTTON",L"Stop",BS_OWNERDRAW,552,193,110,32,5);
+  Output=control(L"EDIT",L"USB function / endpoint / IN or OUT / sampled data",WS_BORDER|WS_VSCROLL|ES_MULTILINE|ES_READONLY,24,342,738,196,12);if(Preview){SendMessageW(Devices,CB_ADDSTRING,0,reinterpret_cast<LPARAM>(L"Synthetic preview - USB fixture"));SendMessageW(Devices,CB_SETCURSEL,0,0);Message=L"Offline tour only. Request evaluation and a signed driver bundle from titancsa on Discord.";SetWindowTextW(Output,L"Example observation only\r\nFunction 0x0009 | endpoint 0x81 | IN | requested 64, actual 8\r\n01 02 03 04 05 06 07 08");}else Worker=std::thread(Work);return 0;}
+ case WM_APP+1:{std::lock_guard<std::mutex> lock(Mutex);SendMessageW(Devices,CB_RESETCONTENT,0,0);for(auto& n:Nodes){std::wstring label=(n.attached?L"[attached] ":L"[available] ")+n.description+L" | "+n.instance;SendMessageW(Devices,CB_ADDSTRING,0,reinterpret_cast<LPARAM>(label.c_str()));}if(!Nodes.empty())SendMessageW(Devices,CB_SETCURSEL,0,0);return 0;}
+ case WM_APP+2:{std::vector<UT_EVENT> events;{std::lock_guard<std::mutex> lock(Mutex);events=Last;Last.clear();if(!Busy)KillTimer(window,1);}if(!events.empty()){std::wostringstream text;for(auto& e:events){text<<L'#'<<e.sequence<<L" | function 0x"<<std::hex<<e.function<<L" | EP 0x"<<static_cast<unsigned>(e.endpoint)<<(e.direction==UT_IN?L" IN":e.direction==UT_OUT?L" OUT":L" metadata")<<std::dec<<L" | "<<e.actual<<L" bytes, sampled "<<e.captured<<L"\r\n";for(unsigned i=0;i<e.captured&&i<32;++i)text<<std::hex<<std::setw(2)<<std::setfill(L'0')<<static_cast<unsigned>(e.data[i])<<L' ';text<<L"\r\n";}SetWindowTextW(Output,text.str().c_str());}InvalidateRect(window,nullptr,FALSE);return 0;}
+ case WM_TIMER:{RECT bounds;GetClientRect(window,&bounds);bounds.top=bounds.bottom-18;InvalidateRect(window,&bounds,FALSE);return 0;}
+ case WM_DRAWITEM:{auto* item=reinterpret_cast<DRAWITEMSTRUCT*>(l);if(item->CtlType==ODT_BUTTON){bool primary=item->CtlID==4;HBRUSH brush=CreateSolidBrush(primary?Blue:White);auto oldBrush=SelectObject(item->hDC,brush);auto oldPen=SelectObject(item->hDC,GetStockObject(NULL_PEN));RoundRect(item->hDC,item->rcItem.left,item->rcItem.top,item->rcItem.right,item->rcItem.bottom,10,10);SelectObject(item->hDC,oldPen);SelectObject(item->hDC,oldBrush);DeleteObject(brush);SetBkMode(item->hDC,TRANSPARENT);SetTextColor(item->hDC,primary?White:Ink);SelectObject(item->hDC,Font);wchar_t text[128]{};GetWindowTextW(item->hwndItem,text,128);RECT bounds=item->rcItem;if(item->itemState&ODS_SELECTED)OffsetRect(&bounds,0,1);DrawTextW(item->hDC,text,-1,&bounds,DT_CENTER|DT_VCENTER|DT_SINGLELINE);if(item->itemState&ODS_FOCUS){InflateRect(&bounds,-4,-4);DrawFocusRect(item->hDC,&bounds);}return TRUE;}break;}
+ case WM_COMMAND:if(HIWORD(w)==BN_CLICKED&&LOWORD(w)>=1&&LOWORD(w)<=5)Action(LOWORD(w));return 0;
+ case WM_SETCURSOR:{HWND h=reinterpret_cast<HWND>(w);wchar_t type[32]{};GetClassNameW(h,type,32);if(!_wcsicmp(type,L"Button")||!_wcsicmp(type,L"ComboBox")){SetCursor(LoadCursorW(nullptr,IDC_HAND));return TRUE;}break;}
+ case WM_ERASEBKGND:return 1;
+ case WM_PAINT:Paint(window);return 0;
+ case WM_CLOSE:Quit=true;if(Worker.joinable())Worker.join();DestroyWindow(window);return 0;
+ case WM_DESTROY:DeleteObject(Font);DeleteObject(TitleFont);PostQuitMessage(0);return 0;}
+ return DefWindowProcW(window,message,w,l);
+}
+}
+int WINAPI wWinMain(HINSTANCE instance,HINSTANCE,PWSTR command,int show){Preview=command&&wcsstr(command,L"--preview");WNDCLASSW c{};c.hInstance=instance;c.lpfnWndProc=Proc;c.lpszClassName=L"TitanUSBTraceStudio";c.hCursor=LoadCursorW(nullptr,IDC_ARROW);RegisterClassW(&c);HWND window=CreateWindowExW(0,c.lpszClassName,L"USB Trace SDK",WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX,CW_USEDEFAULT,CW_USEDEFAULT,805,680,nullptr,nullptr,instance,nullptr);if(!window)return 1;ShowWindow(window,show);MSG msg;while(GetMessageW(&msg,nullptr,0,0)>0){if(!IsDialogMessageW(window,&msg)){TranslateMessage(&msg);DispatchMessageW(&msg);}}return 0;}

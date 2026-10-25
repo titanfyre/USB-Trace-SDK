@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 245" role="img" aria-label="Explicit per-device USB trace architecture">
+<rect width="1000" height="245" rx="20" fill="#f5f7fb"/>
+<g font-family="Segoe UI,Arial" text-anchor="middle" fill="#141e30">
+<text x="500" y="35" font-size="22" font-weight="600">Observe one selected USB device</text>
+<g fill="#fff" stroke="#1e64eb" stroke-width="2"><rect x="30" y="80" width="240" height="80" rx="14"/><rect x="380" y="80" width="240" height="80" rx="14"/><rect x="730" y="80" width="240" height="80" rx="14"/></g>
+<path d="M270 120h110m240 0h110" stroke="#1e64eb" stroke-width="3"/><path d="m370 114 10 6-10 6m350-12 10 6-10 6" fill="none" stroke="#1e64eb" stroke-width="3"/>
+<text x="150" y="113" font-size="18">Original Windows driver</text><text x="150" y="139" font-size="14">Control, bulk and interrupt URBs</text>
+<text x="500" y="113" font-size="18">USB Trace lower filter</text><text x="500" y="139" font-size="14">Original request passes unchanged</text>
+<text x="850" y="113" font-size="18">USB device stack</text><text x="850" y="139" font-size="14">Physical device or owned fixture</text>
+<text x="500" y="202" font-size="16">Completed observations → bounded ring → native C++ SDK</text>
+<text x="500" y="228" font-size="14">Explicit association · product authorization · 512-byte samples · no kernel pointers</text>
+</g></svg>

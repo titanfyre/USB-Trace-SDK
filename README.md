@@ -1,4 +1,4 @@
-# USB Trace SDK - Windows Kernel USB Filter Driver & C++ API
+# USB Trace SDK - Microsoft-signed Windows Kernel USB Filter Driver & C++ API
 
 **Observe USB request metadata and bounded payload samples from one explicitly selected USB device using a native C++ API.**
 
@@ -6,7 +6,7 @@ The private KMDF lower filter observes requests already issued by the device's W
 
 ![Explicit per-device capture path](docs/overview.svg)
 
-**Windows x64 engineering preview.** The public release contains the app, CLI, C++ example, SDK and installer source. The private candidate passed normal and targeted Driver Verifier campaigns in a Windows 10 VM; Microsoft signing remains pending. This preview contains no installable unsigned driver, setup executable or test certificate. Do not change Windows signature enforcement to use a public download.
+**Microsoft-signed evaluation, Windows x64.** The complete 0.1.1 ZIP includes the native app, CLI, C++ example, SDK, installer sources and self-contained UI/console installers with the signed 0.1.0.0 driver. Actual installation, control/interrupt observations and removal passed Windows 10 x64 campaigns normally and under targeted Driver Verifier, with test-signing disabled. See [validation and boundaries](docs/VALIDATION.md).
 
 ## Capabilities
 
@@ -29,15 +29,15 @@ Attached filters keep bounded completion metadata for supported requests even wh
 
 ## Install and use
 
-1. Extract the [complete preview ZIP](https://github.com/titanfyre/USB-Trace-SDK/releases). Run `USBTraceStudio.exe --preview` for a labelled offline tour; it opens no driver or USB device.
-2. Add **`titancsa` on Discord** for evaluation access. An installable bundle becomes available after the Microsoft-signed package returns and passes its own tests.
-3. With a signed bundle, run `USBTraceSetup.exe` as administrator and choose **Install / reinstall**. Both setup versions verify the exact product, Microsoft-root catalog signature and INF/SYS catalog membership. Restart only when requested.
+1. Extract the [complete signed ZIP](https://github.com/titanfyre/USB-Trace-SDK/releases/tag/v0.1.1). Run `USBTraceStudio.exe --preview` for a labelled offline tour; it opens no driver or USB device.
+2. Request a USB Trace SDK access key from **`titancsa` on Discord**. Both self-contained setups are included; Windows test-signing is not required.
+3. Run `USBTraceSetup.exe` as administrator and choose **Install / reinstall**. Both setup versions verify the exact product, Microsoft-root catalog signature and INF/SYS catalog membership. Restart only when requested.
 4. Open `USBTraceStudio.exe`, select one exact USB device and choose **Attach filter**. This normally restarts only that device. Close applications using it first. A device restart can interrupt the device's current work.
 5. Select the attached device, enter its product access key and choose **Authorize & observe**. Capture stays inactive until this explicit action. **Stop** clears stored samples. **Detach filter** removes only this service from that device and preserves other filter entries.
 
 Only this selected device's `LowerFilters` association is changed. There is no global USB class filter, hub attachment, forced restart or replacement of its function driver. An association may remain after the studio closes; it remains passive until another authorized owner starts capture. Detach associations before uninstalling. Uninstall also attempts to remove this service's associations before removing the control driver and retains the package if that cannot finish safely.
 
-The controlled Vdevice fixture required a virtual unplug/replug after a normal device restart even without this filter. Its VM test recreated only that owned fixture, with the same descriptors/serial and exact instance ID, before checking USB Trace. Physical-device restart/reconnect behavior and other filters remain separate compatibility work; the preview does not claim universal restart support.
+The controlled Vdevice fixture required a virtual unplug/replug after a normal device restart even without this filter. Its VM test recreated only that owned fixture, with the same descriptors/serial and exact instance ID, before checking USB Trace. Physical-device restart/reconnect behavior and other filters remain separate compatibility work; the SDK does not claim universal restart support.
 
 Console maintenance supports:
 

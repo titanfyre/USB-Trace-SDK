@@ -92,7 +92,7 @@ struct Temporary {
 Setup::Result Install(){
     Temporary temp;temp.Create();
     if(!OwnPackage(temp.directory/L"TitanUSBTrace.inf"))return {ERROR_INVALID_DATA,false,L"Installation refused: the embedded package does not match the exact Titan USB trace identity."};
-    if(!MicrosoftCatalog(temp.directory/L"TitanUSBTrace.cat"))return {ERROR_INVALID_IMAGE_HASH,false,L"Installation refused: the embedded driver catalog must have a trusted Microsoft Windows Hardware Compatibility Publisher signature. This preview has not completed Microsoft signing."};
+    if(!MicrosoftCatalog(temp.directory/L"TitanUSBTrace.cat"))return {ERROR_INVALID_IMAGE_HASH,false,L"Installation refused: the embedded driver catalog must have a trusted Microsoft Windows Hardware Compatibility Publisher signature."};
     if(!CatalogMember(temp.directory,L"TitanUSBTrace.inf")||!CatalogMember(temp.directory,L"TitanUSBTrace.sys"))return {ERROR_INVALID_IMAGE_HASH,false,L"Installation refused: the embedded INF or SYS is not a trusted member of its catalog."};
     Devices devices;devices.h=SetupDiGetClassDevsW(&GUID_DEVCLASS_SYSTEM,nullptr,nullptr,0);Require(devices.h!=INVALID_HANDLE_VALUE);
     SP_DEVINFO_DATA selected{};selected.cbSize=sizeof(selected);bool found=false;

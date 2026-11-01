@@ -2,6 +2,17 @@
 
 **Observe USB request metadata and bounded payload samples from one explicitly selected USB device using a native C++ API.**
 
+<!-- full-version-contact:start -->
+> [!IMPORTANT]
+> **Full version and commercial licensing**
+>
+> **Discord username: `titancsa`**
+>
+> Open Discord, choose **Friends > Add Friend**, enter **`titancsa`**, then send a direct message. Mention **USB Trace SDK** and ask about the **full / production version, commercial use or OEM redistribution**.
+>
+> Include your intended use and deployment size to discuss pricing, availability and the appropriate licensing / access instructions.
+<!-- full-version-contact:end -->
+
 The private KMDF lower filter observes requests already issued by the device's Windows driver. The original function driver, reports and transfers continue unchanged. Use this SDK for firmware diagnostics, hardware integration, regression tests and OEM troubleshooting tools.
 
 ![Explicit per-device capture path](docs/overview.svg)

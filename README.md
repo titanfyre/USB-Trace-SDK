@@ -13,7 +13,7 @@
 > Include your intended use and deployment size to discuss pricing, availability and the appropriate licensing / access instructions.
 <!-- full-version-contact:end -->
 
-The private KMDF lower filter observes requests already issued by the device's Windows driver. The original function driver, reports and transfers continue unchanged. Use this SDK for firmware diagnostics, hardware integration, regression tests and OEM troubleshooting tools.
+The evaluation KMDF lower filter observes requests already issued by the device's Windows driver. The original function driver, reports and transfers continue unchanged. Use this SDK for firmware diagnostics, hardware integration, regression tests and OEM troubleshooting tools.
 
 ![Explicit per-device capture path](docs/overview.svg)
 
@@ -89,7 +89,13 @@ Product-specific keys obtain signed per-handle permissions lasting at most one h
 
 ## Build and integration
 
-Use Visual Studio 2022 Desktop C++, CMake and a Windows SDK on x64. Public app builds do not require a WDK or private kernel source.
+Demo/evaluation driver source is available; see [driver/README.md](driver/README.md) for
+build instructions and separate evaluation-source terms. Those terms apply to
+Titan-authored driver code. Third-party source licenses and existing application/SDK
+licenses remain applicable. Full/commercial implementation and private signing or
+activation material are excluded.
+
+Use Visual Studio 2022 Desktop C++, CMake and a Windows SDK on x64. Public app builds do not require a WDK or kernel-source build.
 
 ```powershell
 .\Build.ps1
@@ -102,4 +108,4 @@ Outputs are in `obj/Build/bin/Release`. Source builds without a signed package c
 
 For **paid integration, OEM redistribution rights, a branded package and compatibility maintenance**, add **`titancsa` on Discord** with target Windows builds, device classes and the intended workload. Supported scope, acceptance tests and redistribution terms are agreed for the integration. Existing tools such as USBPcap, Windows USB ETW and commercial USB monitoring SDKs already serve this category; no exclusivity, universal compatibility or parity is claimed.
 
-Public app/SDK/example/installer source is [MIT licensed](LICENSE). The private driver binary has separate evaluation/OEM terms. Use only on systems and devices you own or are authorized to administer. USB samples may contain sensitive data; you are responsible for lawful deployment and handling of observations and keys. Software is supplied without warranty, subject to applicable licenses and mandatory statutory rights. No unlawful or unauthorized use is endorsed.
+Public app/SDK/example/installer source is [MIT licensed](LICENSE). The prebuilt driver binary has separate evaluation/OEM terms. Use only on systems and devices you own or are authorized to administer. USB samples may contain sensitive data; you are responsible for lawful deployment and handling of observations and keys. Software is supplied without warranty, subject to applicable licenses and mandatory statutory rights. No unlawful or unauthorized use is endorsed.

@@ -1,6 +1,6 @@
 # Validation and boundaries
 
-Application/SDK **0.1.1**, Microsoft-signed driver **0.1.0.0**, Windows x64. The complete ZIP includes self-contained UI/console installers embedding the exact returned driver. Kernel implementation and signing material stay private.
+Application/SDK **0.1.1**, Microsoft-signed driver **0.1.0.0**, Windows x64. The complete ZIP includes self-contained UI/console installers embedding the exact returned driver. Evaluation driver source is documented in [driver/README.md](../driver/README.md). Full/commercial implementation and private signing material are excluded.
 
 ## Signed package identity
 
@@ -30,4 +30,4 @@ Standard Driver Verifier targeted only TitanUserBackedDisk.sys and TitanUSBTrace
 
 Windows 11, Secure Boot/HVCI, physical USB/controllers, broader storage backends/filesystems, third-party filters, suspend/resume, surprise removal, low-resource simulation and prolonged pressure/performance benchmarks remain separate qualification work. Microsoft signing is not WHQL certification, zero overhead or a guarantee of defect-free/universal compatibility.
 
-Product-specific keys obtain signed per-handle permissions lasting at most one hour, explicitly renewable while enabled. Revocation refuses future grants; accepted permissions expire normally. No machine binding or automatic billing. Kernel sources, CABs, PDBs, private probes and signing credentials are excluded from public repositories/downloads.
+Product-specific keys obtain signed per-handle permissions lasting at most one hour, explicitly renewable while enabled. Revocation refuses future grants; accepted permissions expire normally. No machine binding or automatic billing. Evaluation driver source is documented in [driver/README.md](../driver/README.md). Full/commercial implementation, CABs, PDBs, private probes and signing credentials are excluded from public repositories/downloads.

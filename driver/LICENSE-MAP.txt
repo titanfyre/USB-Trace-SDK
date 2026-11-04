@@ -1,0 +1,39 @@
+USB-Trace-SDK driver source - file-level license map
+
+Paths below are relative to driver/. Each original source/notice file
+and the generated build wrapper/README is classified once.
+
+LicenseRef-Titan-Evaluation-1.0 denotes the separate Titan Demo Driver
+Source Evaluation License, version 1.0, supplied in LICENSE.txt.
+Only files explicitly marked with that identifier receive those terms.
+The repository root LICENSE and existing user-mode/SDK grants are unchanged.
+
+MIT and MS-PL rows retain their complete prior permissions. The custom
+evaluation license adds no production-use, commercial-use, modification,
+redistribution, timer-preservation or authorization-preservation restriction
+to MIT/MS-PL rows. This exception applies to the whole identified file,
+including interleaved Titan changes in a sample-derived source file.
+
+Retained-Notice rows are attribution/license records: keep them intact;
+the custom evaluation terms do not narrow the licenses they reproduce.
+This map and THIRD-PARTY-LICENSES/ may be reproduced with the source.
+
+Complete retained license texts:
+  THIRD-PARTY-LICENSES/MIT-Public-SDK.txt
+
+MIT:
+  Common/DriverAuthorizationProtocol.h
+    Prior public source: https://github.com/titanfyre/USB-Trace-SDK/blob/44d198746e632b23bd1c4ee291d261a926fe1bb1/SDK/AuthorizationProtocol.h
+    Retained complete license: THIRD-PARTY-LICENSES/MIT-Public-SDK.txt
+  SDK/USBTraceProtocol.h
+    Prior public source: https://github.com/titanfyre/USB-Trace-SDK/blob/44d198746e632b23bd1c4ee291d261a926fe1bb1/SDK/USBTraceProtocol.h
+    Retained complete license: THIRD-PARTY-LICENSES/MIT-Public-SDK.txt
+
+LicenseRef-Titan-Evaluation-1.0:
+  Build.ps1
+  Common/DriverAuthorization.h
+  Common/DriverAuthorizationPublicKey.h
+  Driver/TitanUSBTrace.c
+  Driver/TitanUSBTrace.inf
+  Driver/TitanUSBTrace.vcxproj
+  README.md

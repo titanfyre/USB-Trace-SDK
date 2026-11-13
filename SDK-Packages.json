@@ -137,10 +137,11 @@
       "registry_published": false,
       "consumer_build_verified": true,
       "documentation_bundled": true,
-      "publication_on_hold_by_owner": true
+      "publication_on_hold_by_owner": false,
+      "nuget_publication_status": "ready_requires_trusted_publishing_policy"
     },
     "NET/nuget": {
-      "status": "built_verified_publication_on_hold_by_owner",
+      "status": "built_verified_requires_trusted_publishing_policy",
       "name": "USBTraceSDK.SDK",
       "version": "1.0.0",
       "directory": "USB-Trace-SDK-NET-nuget",
@@ -151,7 +152,8 @@
       "module": "usb_trace_sdk",
       "dll_name": "USBTraceSDKJsonSDK.dll",
       "api_prefix": "usb_trace_sdk_json_",
-      "publication_on_hold_by_owner": true
+      "publication_on_hold_by_owner": false,
+      "nuget_publication_status": "ready_requires_trusted_publishing_policy"
     },
     "Python/pypi": {
       "status": "built_fixture_and_production_verified",

@@ -6,12 +6,12 @@ Current source layout and registry coverage. A GitHub download is distinct from 
 | --- | --- | --- |
 | CPP/vcpkg | published_custom_registry | usb-trace-sdk |
 | CPP/conan | published_custom_source_index | [usb-trace-sdk](https://github.com/TitanCSA/sdk-packages/tree/089bc73095aa8eda89bacbe10d0b9e58394b0207/conan-index) [Source](packaging/native/) |
-| CPP/nuget | account_email_confirmed_requires_matching_trusted_publishing_policy | USB-Trace-SDK.Native |
-| NET/nuget | built_verified_requires_trusted_publishing_policy | USBTraceSDK.SDK [Source](USB-Trace-SDK-NET-nuget/) |
+| CPP/nuget | published_payload_verified | [USB-Trace-SDK.Native](https://www.nuget.org/packages/USB-Trace-SDK.Native/0.1.1) |
+| NET/nuget | published_payload_verified | [USBTraceSDK.SDK](https://www.nuget.org/packages/USBTraceSDK.SDK/1.0.0) |
 | Python/pypi | built_fixture_and_production_verified | usb-trace-sdk [Source](USB-Trace-SDK-Python-pypi/) |
 | Python/conda-forge | custom_channel_install_verified_requires_conda_forge_review | [usb-trace-sdk](https://raw.githubusercontent.com/TitanCSA/sdk-packages/089bc73095aa8eda89bacbe10d0b9e58394b0207/conda-channel) [Source](packaging/conda/) |
 | Rust/cargo | published_install_verified | [usb-trace-sdk](https://crates.io/crates/usb-trace-sdk) [Source](USB-Trace-SDK-Rust-cargo/) |
-| JavaScript/npm | registry_publication_requires_action | [usb-trace-sdk](https://www.npmjs.com/package/usb-trace-sdk) [Source](USB-Trace-SDK-JavaScript-npm/) |
+| JavaScript/npm | stopped_before_submission | usb-trace-sdk [Source](USB-Trace-SDK-JavaScript-npm/) |
 | Java/maven | published_install_verified | [usb-trace-sdk](https://central.sonatype.com/artifact/io.github.titancsa/usb-trace-sdk/1.0.0) [Source](USB-Trace-SDK-Java-maven/) |
 | Java/jitpack | published_install_verified | [usb-trace-sdk](https://jitpack.io/#titanfyre/USB-Trace-SDK/java-sdk-v1.0.0) [Source](USB-Trace-SDK-Java-maven/) |
 | Go/modules | published_install_verified | [usb-trace-sdk](https://pkg.go.dev/github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0) [Source](USB-Trace-SDK-Go-modules/) |

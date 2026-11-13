@@ -1,8 +1,6 @@
 # USB-Trace-SDK .NET8 SDK
 
-Package ID `USBTraceSDK.SDK`. NuGet upload remains on hold at owner request.
-
-```csharp
+Package ID `USBTraceSDK.SDK`. ```csharp
 using var client=new TitanCSA.Products.USBTraceSDK.Client();
 string statusJson=client.Call("status", "{}");
 ```

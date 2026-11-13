@@ -6,7 +6,7 @@ Current source layout and registry coverage. A GitHub download is distinct from 
 | --- | --- | --- |
 | CPP/vcpkg | published_custom_registry | usb-trace-sdk |
 | CPP/conan | published_custom_source_index | [usb-trace-sdk](https://github.com/TitanCSA/sdk-packages/tree/089bc73095aa8eda89bacbe10d0b9e58394b0207/conan-index) [Source](packaging/native/) |
-| CPP/nuget | paused_pending_owner_email_confirmation | USB-Trace-SDK.Native |
+| CPP/nuget | account_email_confirmed_requires_matching_trusted_publishing_policy | USB-Trace-SDK.Native |
 | NET/nuget | built_verified_requires_trusted_publishing_policy | USBTraceSDK.SDK [Source](USB-Trace-SDK-NET-nuget/) |
 | Python/pypi | built_fixture_and_production_verified | usb-trace-sdk [Source](USB-Trace-SDK-Python-pypi/) |
 | Python/conda-forge | custom_channel_install_verified_requires_conda_forge_review | [usb-trace-sdk](https://raw.githubusercontent.com/TitanCSA/sdk-packages/089bc73095aa8eda89bacbe10d0b9e58394b0207/conda-channel) [Source](packaging/conda/) |

@@ -111,28 +111,28 @@ For **paid integration, OEM redistribution rights, a branded package and compati
 Public app/SDK/example/installer source is [MIT licensed](LICENSE). The prebuilt driver binary has separate evaluation/OEM terms. Use only on systems and devices you own or are authorized to administer. USB samples may contain sensitive data; you are responsible for lawful deployment and handling of observations and keys. Software is supplied without warranty, subject to applicable licenses and mandatory statutory rights. No unlawful or unauthorized use is endorsed.
 
 <!-- central-sdk-packages:start -->
-## SDK : langages et installation
+## Paquets et installation
 
-Les sources, licences, guides API et exemples sont regroupes dans [le depot SDK dedie](https://github.com/TitanCSA/sdk-packages/tree/main/projects/USB-Trace-SDK). Choisis le langage de ton application puis execute sa commande dans son dossier.
+Les sources, licences, guides API et exemples sont regroupes dans [le depot SDK dedie](https://github.com/TitanCSA/sdk-packages/tree/main/projects/USB-Trace-SDK). Choisis le paquet a installer puis execute sa commande dans son dossier.
 
-| Langage / registre | Disponibilite | Installation / utilisation |
-| --- | --- | --- |
-| C++ / vcpkg | Registre TitanCSA disponible (configuration ci-dessous) | `vcpkg install usb-trace-sdk:x64-windows` |
-| C++ / Conan | Registre TitanCSA disponible (configuration ci-dessous) | `conan install --requires=usb-trace-sdk/0.1.1 -r titancsa --build=missing -s compiler.cppstd=17` |
-| C++ / NuGet natif | Publie et verifie | `Install-Package USB-Trace-SDK.Native -Version 0.1.1` |
-| C# / .NET | Publie et verifie | `dotnet add package USBTraceSDK.SDK --version 1.0.0` |
-| Python / pip | Pas encore disponible / validation en cours | Commande prevue apres publication : `python -m pip install usb-trace-sdk==1.0.0` |
-| Python / Conda | Canal TitanCSA disponible ; acceptation conda-forge encore en attente | `conda install --override-channels -c https://raw.githubusercontent.com/TitanCSA/sdk-packages/089bc73095aa8eda89bacbe10d0b9e58394b0207/conda-channel -c conda-forge usb-trace-sdk` |
-| Rust / Cargo | Publie et verifie | `cargo add usb-trace-sdk@1.0.0` |
-| JavaScript et TypeScript / npm | Pas encore disponible / validation en cours | Commande prevue apres publication : `npm install usb-trace-sdk@1.0.0` |
-| Java et Kotlin / Maven Central | Publie et verifie | `io.github.titancsa:usb-trace-sdk:1.0.0 (pom.xml / Gradle)` |
-| Java et Kotlin / JitPack | Publie et verifie | `com.github.titanfyre:USB-Trace-SDK:java-sdk-v1.0.0 (avec le depot JitPack)` |
-| Go / Go Modules | Publie et verifie | `go get github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
-| Go / pkg.go.dev | Publie et verifie | `Documentation : https://pkg.go.dev/github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
-| PowerShell / Gallery | Publie et verifie | `Install-Module USBTraceSDK -RequiredVersion 1.0.0 -Scope CurrentUser` |
-| Dart et Flutter / pub.dev | Pas encore disponible / validation en cours | Commande prevue apres publication : `dart pub add usb_trace_sdk:1.0.0` |
-| Ruby / RubyGems | Publie et verifie | `gem install usb-trace-sdk -v 1.0.0` |
-| PHP / Composer | Pas encore disponible / validation en cours | Commande prevue apres publication : `composer require titancsa/usb-trace-sdk:1.0.0` |
+| Paquet | Registre | Disponibilite | Installation / utilisation |
+| --- | --- | --- | --- |
+| `usb-trace-sdk` | vcpkg | Registre TitanCSA disponible (configuration ci-dessous) | `vcpkg install usb-trace-sdk:x64-windows` |
+| `usb-trace-sdk` | Conan | Registre TitanCSA disponible (configuration ci-dessous) | `conan install --requires=usb-trace-sdk/0.1.1 -r titancsa --build=missing -s compiler.cppstd=17` |
+| `USB-Trace-SDK.Native` | NuGet | Publie et verifie | `Install-Package USB-Trace-SDK.Native -Version 0.1.1` |
+| `USBTraceSDK.SDK` | NuGet | Publie et verifie | `dotnet add package USBTraceSDK.SDK --version 1.0.0` |
+| `usb_trace_sdk` | PyPI | Pas encore disponible / validation en cours | Commande prevue apres publication : `python -m pip install usb-trace-sdk==1.0.0` |
+| `usb-trace-sdk` | Conda | Canal TitanCSA disponible ; acceptation conda-forge encore en attente | `conda install --override-channels -c https://raw.githubusercontent.com/TitanCSA/sdk-packages/089bc73095aa8eda89bacbe10d0b9e58394b0207/conda-channel -c conda-forge usb-trace-sdk` |
+| `usb_trace_sdk` | crates.io | Publie et verifie | `cargo add usb-trace-sdk@1.0.0` |
+| `usb_trace_sdk` | npm | Pas encore disponible / validation en cours | Commande prevue apres publication : `npm install usb-trace-sdk@1.0.0` |
+| `io.github.titancsa:usb-trace-sdk` | Maven Central | Publie et verifie | `io.github.titancsa:usb-trace-sdk:1.0.0 (pom.xml / Gradle)` |
+| `com.github.titanfyre:USB-Trace-SDK` | JitPack | Publie et verifie | `com.github.titanfyre:USB-Trace-SDK:java-sdk-v1.0.0 (avec le depot JitPack)` |
+| `github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules` | Go Modules | Publie et verifie | `go get github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
+| `github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules` | pkg.go.dev | Publie et verifie | `Documentation : https://pkg.go.dev/github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
+| `usb_trace_sdk` | PowerShell Gallery | Publie et verifie | `Install-Module USBTraceSDK -RequiredVersion 1.0.0 -Scope CurrentUser` |
+| `usb_trace_sdk` | pub.dev | Pas encore disponible / validation en cours | Commande prevue apres publication : `dart pub add usb_trace_sdk:1.0.0` |
+| `usb_trace_sdk` | RubyGems | Publie et verifie | `gem install usb-trace-sdk -v 1.0.0` |
+| `usb_trace_sdk` | Packagist | Pas encore disponible / validation en cours | Commande prevue apres publication : `composer require titancsa/usb-trace-sdk:1.0.0` |
 
 Pour vcpkg et Conan, configure d abord le registre TitanCSA avec [le guide complet](https://github.com/TitanCSA/sdk-packages/tree/main/projects/USB-Trace-SDK/README.md). Le guide explique aussi Maven/Gradle, les prerequis et le chargement des DLL. Les pilotes/applications du produit sont installes separement. Les commandes marquees prevues ne sont pas encore disponibles.
 

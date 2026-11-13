@@ -6,24 +6,24 @@ Choisis le paquet a installer. Installe son outil habituel (Node.js/npm, Python/
 
 Les SDK natifs sont destines a Windows x64. Java utilise Java22+ (Kotlin passe par le SDK Java). Flutter utilise le SDK Dart ; le chargement de la DLL doit etre configure dans l application. AutoHotInterceptor .NET utilise .NET Framework4.8.
 
-| Paquet | Registre | Disponibilite | Installation / utilisation |
-| --- | --- | --- | --- |
-| `usb-trace-sdk` | vcpkg | Registre TitanCSA disponible (configuration ci-dessous) | `vcpkg install usb-trace-sdk:x64-windows` |
-| `usb-trace-sdk` | Conan | Registre TitanCSA disponible (configuration ci-dessous) | `conan install --requires=usb-trace-sdk/0.1.1 -r titancsa --build=missing -s compiler.cppstd=17` |
-| `USB-Trace-SDK.Native` | NuGet | Publie et verifie | `Install-Package USB-Trace-SDK.Native -Version 0.1.1` |
-| `USBTraceSDK.SDK` | NuGet | Publie et verifie | `dotnet add package USBTraceSDK.SDK --version 1.0.0` |
-| `usb_trace_sdk` | PyPI | Pas encore disponible / validation en cours | Commande prevue apres publication : `python -m pip install usb-trace-sdk==1.0.0` |
-| `usb-trace-sdk` | Conda | Canal TitanCSA disponible ; acceptation conda-forge encore en attente | `conda install --override-channels -c https://raw.githubusercontent.com/TitanCSA/sdk-packages/089bc73095aa8eda89bacbe10d0b9e58394b0207/conda-channel -c conda-forge usb-trace-sdk` |
-| `usb_trace_sdk` | crates.io | Publie et verifie | `cargo add usb-trace-sdk@1.0.0` |
-| `usb_trace_sdk` | npm | Pas encore disponible / validation en cours | Commande prevue apres publication : `npm install usb-trace-sdk@1.0.0` |
-| `io.github.titancsa:usb-trace-sdk` | Maven Central | Publie et verifie | `io.github.titancsa:usb-trace-sdk:1.0.0 (pom.xml / Gradle)` |
-| `com.github.titanfyre:USB-Trace-SDK` | JitPack | Publie et verifie | `com.github.titanfyre:USB-Trace-SDK:java-sdk-v1.0.0 (avec le depot JitPack)` |
-| `github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules` | Go Modules | Publie et verifie | `go get github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
-| `github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules` | pkg.go.dev | Publie et verifie | `Documentation : https://pkg.go.dev/github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
-| `usb_trace_sdk` | PowerShell Gallery | Publie et verifie | `Install-Module USBTraceSDK -RequiredVersion 1.0.0 -Scope CurrentUser` |
-| `usb_trace_sdk` | pub.dev | Pas encore disponible / validation en cours | Commande prevue apres publication : `dart pub add usb_trace_sdk:1.0.0` |
-| `usb_trace_sdk` | RubyGems | Publie et verifie | `gem install usb-trace-sdk -v 1.0.0` |
-| `usb_trace_sdk` | Packagist | Pas encore disponible / validation en cours | Commande prevue apres publication : `composer require titancsa/usb-trace-sdk:1.0.0` |
+| Registre | Paquet | Installation / utilisation |
+| --- | --- | --- |
+| vcpkg | `usb-trace-sdk` | `vcpkg install usb-trace-sdk:x64-windows` |
+| Conan | `usb-trace-sdk` | `conan install --requires=usb-trace-sdk/0.1.1 -r titancsa --build=missing -s compiler.cppstd=17` |
+| NuGet | `USB-Trace-SDK.Native` | `Install-Package USB-Trace-SDK.Native -Version 0.1.1` |
+| NuGet | `USBTraceSDK.SDK` | `dotnet add package USBTraceSDK.SDK --version 1.0.0` |
+| PyPI | `usb_trace_sdk` | Commande prevue apres publication : `python -m pip install usb-trace-sdk==1.0.0` |
+| Conda | `usb-trace-sdk` | `conda install --override-channels -c https://raw.githubusercontent.com/TitanCSA/sdk-packages/089bc73095aa8eda89bacbe10d0b9e58394b0207/conda-channel -c conda-forge usb-trace-sdk` (canal TitanCSA) |
+| crates.io | `usb_trace_sdk` | `cargo add usb-trace-sdk@1.0.0` |
+| npm | `usb_trace_sdk` | Commande prevue apres publication : `npm install usb-trace-sdk@1.0.0` |
+| Maven Central | `io.github.titancsa:usb-trace-sdk` | `io.github.titancsa:usb-trace-sdk:1.0.0 (pom.xml / Gradle)` |
+| JitPack | `com.github.titanfyre:USB-Trace-SDK` | `com.github.titanfyre:USB-Trace-SDK:java-sdk-v1.0.0 (avec le depot JitPack)` |
+| Go Modules | `github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules` | `go get github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
+| pkg.go.dev | `github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules` | `Documentation : https://pkg.go.dev/github.com/titanfyre/USB-Trace-SDK/USB-Trace-SDK-Go-modules@v1.0.0` |
+| PowerShell Gallery | `usb_trace_sdk` | `Install-Module USBTraceSDK -RequiredVersion 1.0.0 -Scope CurrentUser` |
+| pub.dev | `usb_trace_sdk` | Commande prevue apres publication : `dart pub add usb_trace_sdk:1.0.0` |
+| RubyGems | `usb_trace_sdk` | `gem install usb-trace-sdk -v 1.0.0` |
+| Packagist | `usb_trace_sdk` | Commande prevue apres publication : `composer require titancsa/usb-trace-sdk:1.0.0` |
 
 ## Configuration vcpkg et Conan
 
